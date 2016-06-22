@@ -6,7 +6,7 @@
     "S.SKNS <somtida.th@gmail.com>"
   ],
   "license": "ISC",
-  "homepage": "",
+  "homepage": "https://github.com/Somtida/Reddit_V1",
   "ignore": [
     "**/.*",
     "node_modules",

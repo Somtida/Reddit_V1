@@ -11,50 +11,53 @@ function init(){
 }
 
 function downVote(){
-  let idd = $(this).parent().parent().parent().parent().parent().parent().data('id');
-  console.log("idd: ",idd);
-  let sscore = $(this).parent().parent().parent().parent().parent().parent().data('score');
-  console.log("sscore: ",sscore);
+  let data = $(this).closest('.postInfo').data();
+
+  let idd = data.id;
+  let sscore = data.score;
+
   $.ajax({
     method:'PUT',
-    url: '/posts',
-    data: {
-      id: idd,
-      score: sscore
-    },
-    success: function(post){
+    url: `/posts/${idd}/downVote`,
+    success: post => {
       console.log("downVote");
-      getAllPosts();
+      // getAllPosts();
+      console.log("sscore: ",sscore);
+      $(this).closest('.postInfo').data('score',parseInt(sscore)-1);
+      console.log("score: ", sscore-1);
+      $(this).closest('.postInfo').find('.voteScore').text(parseInt(sscore)-1);
+    },
+    error: err =>{
+      console.log("err: ",err);
     }
 
   })
-  $(this).parent().parent().parent().parent().parent().parent().data('score',parseInt(sscore)-1);
-  $(this).parent().parent().parent().parent().parent().parent().find('.voteScore').text(parseInt(sscore)-1);
 }
 
 function upVote(){
-  let idd = $(this).parent().parent().parent().parent().parent().parent().data('id');
-  console.log("idd: ",idd);
-  let sscore = $(this).parent().parent().parent().parent().parent().parent().data('score');
-  console.log("sscore: ",sscore);
+  let data = $(this).closest('.postInfo').data();
+  let idd = data.id;
+  let sscore = data.score;
   $.ajax({
     method:'PUT',
-    url: '/posts',
-    data: {
-      id: idd,
-      score: sscore
-    },
-    success: function(post){
+    url: `/posts/${idd}/upVote`,
+    success: post => {
       console.log("upVoted");
-      getAllPosts();
+      console.log("sscore: ",sscore);
+      // getAllPosts();
+      $(this).closest('.postInfo').data('score',parseInt(sscore)+1);
+      console.log("score: ", sscore+1);
+      $(this).closest('.postInfo').find('.voteScore').text(parseInt(sscore)+1);
+    },
+    error: err =>{
+      console.log("err: ",err);
     }
+
   })
-  $(this).parent().parent().parent().parent().parent().parent().data('score',parseInt(sscore)+1);
-  $(this).parent().parent().parent().parent().parent().parent().find('.voteScore').text(parseInt(sscore)+1);
 }
 
 function deleteText(){
-  let idd = $(this).parent().parent().parent().parent().parent().parent().data('id');
+  let idd = $(this).closest('.postInfo').data('id');
   console.log("idd: ",idd);
 
   $.ajax({
@@ -65,10 +68,10 @@ function deleteText(){
     },
     success: function(post){
       console.log("upVoted");
-      getAllPosts();
+      // getAllPosts();
+      $(this).closest('.postInfo').remove();
     }
   })
-  $(this).parent().parent().parent().parent().parent().parent().remove();
 
 }
 
@@ -80,7 +83,7 @@ function getAllPosts(){
     let $divs = buildAllPosts(posts);
     $('.postBoxes').empty().append($divs);
   })
-  .fail(err=>{
+  .fail(err => {
     console.log('err')
   })
 }

@@ -42,7 +42,7 @@ exports.create = postObj => {
   });
 }
 
-exports.delete = post =>{
+exports.delete = post => {
   console.log("idd: ",post.id);
   return new Promise((resolve, reject)=>{
     db.run(`delete from posts where id = "${post.id}"`,function(err,post){
@@ -51,20 +51,22 @@ exports.delete = post =>{
   })
 }
 
-exports.upVote = post =>{
-  console.log("idd: ",post.id);
+exports.upVote = id =>{
+  console.log("id: ",id);
   return new Promise((resolve, reject)=>{
-    db.run(`update posts set score = "${parseInt(post.score)+1}" where id = "${post.id}"`,function(err,post){
-      if(err) return console.log("err: ",err);
+    db.run(`update posts set score = score + 1  where id = "${id}"`,function(err,result){
+      if(err) return reject(err);
+      resolve();
     });
   })
 }
 
-exports.downVote = post =>{
-  console.log("idd: ",post.id);
+exports.downVote = id =>{
+  console.log("id: ",id);
   return new Promise((resolve, reject)=>{
-    db.run(`update posts set score = "${parseInt(post.score)-1}" where id = "${post.id}"`,function(err,post){
-      if(err) return console.log("err: ",err);
+    db.run(`update posts set score = score - 1 where id = "${id}"`,function(err,result){
+      if(err) return reject(err);
+      resolve();
     });
   })
 }

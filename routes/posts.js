@@ -26,8 +26,8 @@ router.post('/',(req, res)=>{
     })
 })
 
-router.put('/',(req, res)=>{
-  Post.upVote(req.body)
+router.put('/:id/upVote',(req, res)=>{
+  Post.upVote(req.params.id)
     .then(posts=>{
       res.send(posts)
     })
@@ -36,8 +36,8 @@ router.put('/',(req, res)=>{
     })
 })
 
-router.put('/',(req, res)=>{
-  Post.downVote(req.body)
+router.put('/:id/downVote',(req, res)=>{
+  Post.downVote(req.params.id)
     .then(posts=>{
       res.send(posts)
     })
